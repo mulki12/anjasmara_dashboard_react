@@ -3,7 +3,7 @@ import {
   TheContent,
   TheSidebar,
   TheFooter,
-  TheHeader
+  // TheHeader
 } from './index'
 
 const TheLayout = () => {
@@ -12,7 +12,7 @@ const TheLayout = () => {
     <div className="c-app c-default-layout">
       <TheSidebar/>
       <div className="c-wrapper">
-        <TheHeader/>
+        {/*<TheHeader/>*/}
         <div className="c-body">
           <TheContent/>
         </div>
