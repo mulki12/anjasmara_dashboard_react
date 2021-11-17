@@ -20,7 +20,7 @@ jobs:
           key: ${{ secrets.PRIVATE_KEY }}
           port: 22
           script: |
-            cd ~/docker/anjasmara_service_users_v1
+            cd ~/docker/anjasmara_dashboard_react
             git pull origin master
             git status
             npm install --only=prod
