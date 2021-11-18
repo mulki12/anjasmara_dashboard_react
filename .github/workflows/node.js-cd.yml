@@ -21,7 +21,7 @@ jobs:
           port: 22
           script: |
             cd ~/docker/anjasmara_dashboard_react
-            git pull origin master
+            git pull origin main
             git status
             npm install --only=prod
             docker build .
