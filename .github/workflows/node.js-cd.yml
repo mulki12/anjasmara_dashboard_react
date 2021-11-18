@@ -6,22 +6,36 @@ name: Node.js CD
 on:
   push:
     branch: [ master ] 
+  release:
+    tags:
+      - v1.*.*
 
 jobs:
   build:
     runs-on: ubuntu-latest
     steps:
       - uses: actions/checkout@v2
-      - name: Deploy using ssh
-        uses: appleboy/ssh-action@master
+
+      - name: Check Out Repo 
+        uses: actions/checkout@v2
+
+      - name: Login to Docker Hub
+        uses: docker/login-action@v1
         with:
-          host: ${{ secrets.HOST }}
-          username: ${{ secrets.USERNAME }}
-          key: ${{ secrets.PRIVATE_KEY }}
-          port: 22
-          script: |
-            cd ~/docker/anjasmara_dashboard_react
-            git pull origin main
-            git status
-            npm install --only=prod
-            docker build .
+          username: ${{ secrets.DOCKER_HUB_USERNAME }}
+          password: ${{ secrets.DOCKER_HUB_ACCESS_TOKEN }}
+      - name: Set up Docker Buildx
+        id: buildx
+        uses: docker/setup-buildx-action@v1
+
+      - name: Build and push
+        id: docker_build
+        uses: docker/build-push-action@v2
+        with:
+          context: ./
+          file: ./Dockerfile
+          push: true
+          tags: ${{ secrets.DOCKER_HUB_USERNAME }}/anjasmara_dashboard_react:latest
+
+      - name: Image digest
+        run: echo ${{ steps.docker_build.outputs.digest }}
