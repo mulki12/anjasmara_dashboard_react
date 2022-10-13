@@ -1,0 +1,17 @@
+---
+execution:
+- concurrency: 50
+  hold-for: 3m
+  ramp-up: 2m
+  
+  scenario: Choose Flight
+scenarios:
+  Choose Flight:
+    requests:
+    - label: mulki12
+      method: GET
+      url: https://github.com/mulki12/anjasmara_dashboard_react
+    - label: reserve
+      method: POST
+      url: https://github.com/mulki12/anjasmara_dashboard_react
+      
