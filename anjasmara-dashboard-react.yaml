@@ -1,0 +1,46 @@
+---
+apiVersion: v1
+kind: Namespace
+metadata:
+  name: pipeline-demo
+
+---
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  labels:
+    app: anjasmara-dashboard-react
+  name: anjasmara-dashboard-react
+  namespace: pipeline-demo
+spec:
+  replicas: 1
+  selector:
+    matchLabels:
+      app: anjasmara-dashboard-react
+  template:
+    metadata:
+      labels:
+        app: anjasmara-dashboard-react
+    spec:
+      containers:
+      - image: mulki12/anjasmara-dashboard-react:<TAG>
+        imagePullPolicy: Always
+        name: anjasmara-dashboard-react
+
+---
+apiVersion: v1
+kind: Service
+metadata:
+  labels:
+    app: anjasmara-dashboard-react
+  name: anjasmara-dashboard-react
+  namespace: pipeline-demo
+spec:
+  ports:
+  - nodePort: 32223
+    port: 80
+    protocol: TCP
+    targetPort: 80
+  selector:
+    app: anjasmara-dashboard-react
+  type: NodePort
